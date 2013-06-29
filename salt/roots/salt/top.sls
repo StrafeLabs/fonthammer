@@ -1,0 +1,4 @@
+base:
+  '*':
+    - tools
+    - app
