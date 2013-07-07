@@ -10,7 +10,6 @@ version = imp.load_source(
     os.path.join(here, 'fonthammer', '__init__.py')
 ).__version__
 
-
 setup(
     name='fonthammer',
     version=version,
