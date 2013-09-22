@@ -7,8 +7,8 @@ python-pip:
 python-dev-packages:
   pip.installed:
     - names:
-      - nose
       - coverage
+      - pytest
     - require:
       - pkg: python-dev
       - pkg: python-pip

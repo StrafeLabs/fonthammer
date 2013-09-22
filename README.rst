@@ -1,3 +1,5 @@
+*This library is not yet functional, everything you see here is speculative*
+
 FontHammer
 ==========
 
@@ -64,6 +66,12 @@ Clone FontHammer::
 Bootstrap the VM::
 
     $ vagrant up
+
+After it's provisioned::
+
+    $ vagrant ssh
+
+Follow the docs displayed as the "message of the day" once you login.
 
 .. _FontForge: http://fontforge.org
 .. _Homebrew: http://mxcl.github.io/homebrew/
