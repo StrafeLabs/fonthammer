@@ -21,7 +21,7 @@ class SVGFiles(object):
 
     @property
     def first(self):
-        return self.svg_directory[0]
+        return self._svg_files[0]
 
 
 @pytest.fixture(scope='module')

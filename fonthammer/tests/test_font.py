@@ -1,8 +1,20 @@
+import sys
 import pytest
 
-from fonthammer.api import Font
-from fonthammer.exceptions import GlyphCodeError
+from mock import patch
+
+from fonthammer.api import Font, Glyph
+from fonthammer.exceptions import GlyphCodeError, SaveFailed
 from fonthammer.presets.default import DefaultPreset
+
+
+@pytest.fixture
+def font_with_glyph(svg_files):
+    font = Font()
+
+    font.add_glyph(u'\uf000', svg_files.first)
+
+    return font
 
 
 def test_apply_preset():
@@ -24,4 +36,54 @@ def test_add_glyph_requires_unicode(svg_files):
     font = Font()
 
     with pytest.raises(GlyphCodeError):
-        font.add_glyph("f", svg_files.first)
+        font.add_glyph('f', svg_files.first)
+
+
+def test_add_glyph(svg_files):
+    """
+    A glyph can be added with valid unicode and SVG file.
+    """
+    font = Font()
+
+    glyph = font.add_glyph(u'\uf000', svg_files.first)
+
+    assert isinstance(glyph, Glyph)
+
+
+def test_save_ttf(tmpdir, font_with_glyph):
+    """
+    Can save a TTF.
+    """
+    ttf_file = tmpdir.join('file.ttf')
+
+    font_with_glyph.save(str(ttf_file))
+
+    assert True == ttf_file.check()
+
+
+def test_save_captures_output(tmpdir, font_with_glyph):
+    """
+    If save generates output it gets captured.
+    """
+    ttf_file = tmpdir.join('file.ttf')
+    ttf_file.write('')
+
+    def message(*args, **kwargs):
+        sys.stdout.write('out')
+        sys.stderr.write('err')
+
+    with patch.object(font_with_glyph, '_ff') as ff:
+        ff.generate.side_effect = message
+
+        font_with_glyph.save(str(ttf_file))
+
+    assert font_with_glyph.fontforge_messages[0] == ('out', 'err')
+
+
+def test_save_fails_to_create_file(tmpdir, font_with_glyph):
+    """
+    If saving failes to generate the file, an exception is raised.
+    """
+    with patch.object(font_with_glyph, '_ff'):
+        with pytest.raises(SaveFailed):
+            font_with_glyph.save(str(tmpdir.join('file.ttf')))

@@ -1,1 +1,1 @@
-from .base import Font
+from .base import Font, Glyph

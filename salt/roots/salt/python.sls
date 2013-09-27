@@ -9,6 +9,7 @@ python-dev-packages:
     - names:
       - coverage
       - pytest
+      - mock
     - require:
       - pkg: python-dev
       - pkg: python-pip

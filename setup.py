@@ -19,6 +19,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
+        'py==1.4.15'
     ],
     license='BSD',
     author='Rob Madole'
