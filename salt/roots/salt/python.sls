@@ -7,9 +7,9 @@ python-pip:
 python-dev-packages:
   pip.installed:
     - names:
-      - coverage
       - pytest
       - mock
+      - pytest-cov
     - require:
       - pkg: python-dev
       - pkg: python-pip

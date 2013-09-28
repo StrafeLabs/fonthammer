@@ -24,4 +24,3 @@ setup(
     license='BSD',
     author='Rob Madole'
 )
-
