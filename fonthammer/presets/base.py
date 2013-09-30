@@ -3,14 +3,14 @@ def _only_preset_attributes(preset, ignore=[]):
     Used to filter out attributes that are not part of the preset.
     """
     for attr in dir(preset):
+        # It's in our ignore list
+        if attr in ignore:
+            continue
         val = getattr(preset, attr)
         if callable(val):
             continue
         # Double underscore attribute, skip these
         if attr.startswith('__'):
-            continue
-        # It's in our ignore list
-        if attr in ignore:
             continue
         yield attr
 

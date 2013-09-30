@@ -5,6 +5,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
+  # Coverage report
+  config.vm.network "forwarded_port", guest: 8001, host: 8001
+
   # For Salt
   config.vm.synced_folder "salt/roots", "/srv"
 

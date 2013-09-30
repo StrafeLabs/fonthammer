@@ -6,3 +6,7 @@ Run the tests:
     $ cd /vagrant
     $ py.test
 
+Code coverage report will be available afterwards at:
+
+    http://localhost:8001
+

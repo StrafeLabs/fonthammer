@@ -6,7 +6,7 @@ from fonthammer.exceptions import GlyphCodeError, SaveFailed
 
 try:
     import fontforge
-except ImportError:
+except ImportError:   # pragma: no cover
     raise RuntimeError('Unable to import the FontForge Python extension. '
         'For FontHammer to operate this needs to be installed. See X')
 
@@ -44,9 +44,12 @@ class Font(object):
         if not isinstance(glyph_code, unicode):
             raise GlyphCodeError('The glyph code must be unicode instance.')
 
+        if not glyph_name:
+            glyph_name = hex(ord(glyph_code))[2:].upper()
+
         glyph = self._ff.createChar(
             ord(glyph_code),
-            glyph_name or u"Glyph {}".format(glyph_name)
+            glyph_name
         )
 
         glyph.importOutlines(glyph_file)
@@ -78,3 +81,7 @@ class Glyph(object):
     """
     def __init__(self, ff_glyph):
         self._ff_glyph = ff_glyph
+
+    @property
+    def name(self):
+        return self._ff_glyph.glyphname

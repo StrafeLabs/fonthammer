@@ -24,6 +24,14 @@ class SVGFiles(object):
         return self._svg_files[0]
 
 
+class TTFFiles(object):
+
+    """
+    TTF files.
+
+    """
+
+
 @pytest.fixture(scope='module')
 def svg_files():
     return SVGFiles(join(dirname(__file__), 'files', 'svg'))

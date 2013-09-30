@@ -11,3 +11,8 @@ fonthammer-installed:
 /etc/motd:
   file.managed:
     - source: salt://motd
+
+/var/fonthammer/coveragereport:
+  file.directory:
+    - user: vagrant
+    - group: vagrant
