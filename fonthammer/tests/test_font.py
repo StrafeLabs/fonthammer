@@ -2,19 +2,11 @@ import sys
 import pytest
 
 from mock import patch
+import fontforge
 
 from fonthammer.api import Font, Glyph
 from fonthammer.exceptions import GlyphCodeError, SaveFailed
 from fonthammer.presets.default import DefaultPreset
-
-
-@pytest.fixture
-def font_with_glyph(svg_files):
-    font = Font()
-
-    font.add_glyph(u'\uf000', svg_files.first)
-
-    return font
 
 
 def test_apply_preset():
@@ -126,3 +118,23 @@ def test_save_fails_to_create_file(tmpdir, font_with_glyph):
             font_with_glyph.save(str(tmpdir.join('file.ttf')))
 
         assert 'Failed to save font file' in str(exc.value)
+
+
+def test_open_existing_file(tmpdir, font_with_glyph):
+    """
+    Can open an existing file.
+    """
+    font_file = str(tmpdir.join('file.sfd'))
+
+    font_with_glyph.save(font_file)
+
+    font = Font(font_file)
+
+    assert isinstance(font.fontforge_instance, fontforge.font)
+
+
+def test_number_of_glyphs(font_with_glyph):
+    """
+    Using len() we can get the number of glyphs in a font.
+    """
+    assert len(font_with_glyph) == 1

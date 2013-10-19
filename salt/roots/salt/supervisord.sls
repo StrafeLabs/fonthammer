@@ -21,4 +21,3 @@ coveragereport:
     - restart: True
     - require:
       - pkg: supervisor
-      - file: /var/fonthammer/coveragereport

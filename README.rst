@@ -42,11 +42,23 @@ Create a new empty font ::
 
 Import an SVG file into the font ::
 
-    glyph = font.add_glyph('zoomicon.svg')
+    glyph = font.add_glyph(u'a', 'zoomicon.svg', glyph_name='zoom')
 
 Saving ::
 
     font.save('iconfont.otf')
+
+Open an existing file ::
+
+    font = Font('open_sans.ttf')
+
+Find out the number of glyphs ::
+
+    number_of_glyphs = len(font)
+
+Print out the names of all the glyphs ::
+
+    print([i.name for i in font.glyphs])
 
 Development
 -----------
@@ -71,7 +83,9 @@ After it's provisioned::
 
     $ vagrant ssh
 
-Follow the docs displayed as the "message of the day" once you login.
+Once you login use the manpage to learn about the environment::
+
+    $ man fonthammer
 
 .. _FontForge: http://fontforge.org
 .. _Homebrew: http://mxcl.github.io/homebrew/

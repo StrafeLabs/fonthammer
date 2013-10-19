@@ -3,4 +3,4 @@ branch = True
 omit = */conftest.py, fonthammer/__init__.py, */test_*.py
 
 [html]
-directory = /var/fonthammer/coveragereport
+directory = coveragereport

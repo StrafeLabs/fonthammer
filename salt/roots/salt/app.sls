@@ -1,18 +1,20 @@
-include:
-  - python
-
-fonthammer-installed:
-  pip.installed:
-    - name: fonthammer
-    - editable: file:///vagrant
-    - require:
-      - pkg: python-pip
+{% set docs_rst = "/var/fonthammer/docs.rst" %}
 
 /etc/motd:
   file.managed:
     - source: salt://motd
 
-/var/fonthammer/coveragereport:
-  file.directory:
-    - user: vagrant
-    - group: vagrant
+python-docutils:
+  pkg.installed
+
+{{ docs_rst }}:
+  file.managed:
+    - source: salt://docs.rst
+
+make-man-page-from-docs:
+  cmd:
+    - run
+    - name: rst2man {{ docs_rst }} /usr/share/man/man7/fonthammer.7
+    - require:
+      - file: {{ docs_rst }}
+      - pkg: python-docutils

@@ -4,34 +4,47 @@ from os.path import join, dirname
 import pytest
 
 
-class SVGFiles(object):
+class Files(object):
 
     """
-    SVG files for use while testing.
+    Fixture to access files from a given directory.
 
     """
-    def __init__(self, svg_directory):
-        self.svg_directory = svg_directory
+    def __init__(self, directory):
+        self.directory = directory
 
-        self._svg_files = []
+        self._files = []
 
-        for filename in listdir(svg_directory):
-            self._svg_files.append(join(
-                svg_directory, filename))
+        for filename in listdir(directory):
+            self._files.append(join(
+                directory, filename))
 
     @property
     def first(self):
-        return self._svg_files[0]
+        return self._files[0]
 
-
-class TTFFiles(object):
-
-    """
-    TTF files.
-
-    """
+    def get(self, name):
+        for filename in self._files:
+            if name in filename:
+                return filename
 
 
 @pytest.fixture(scope='module')
 def svg_files():
-    return SVGFiles(join(dirname(__file__), 'files', 'svg'))
+    return Files(join(dirname(__file__), 'files', 'svg'))
+
+
+@pytest.fixture(scope='module')
+def open_sans_files():
+    return Files(join(dirname(__file__), 'files', 'ttf', 'opensans'))
+
+
+@pytest.fixture
+def font_with_glyph(svg_files):
+    from fonthammer.api import Font
+
+    font = Font()
+
+    font.add_glyph(u'\uf000', svg_files.first)
+
+    return font

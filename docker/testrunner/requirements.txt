@@ -1,0 +1,5 @@
+py==1.4.17
+null==0.6.1
+mock
+pytest
+pytest-cov
